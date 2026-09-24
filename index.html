@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#eef3f7">
+<title>Mes exercices tactiles</title>
+<style>
+:root{
+  --bg:#eef3f7;
+  --card:#fff;
+  --text:#17315f;
+  --muted:#6f8098;
+  --blue:#2f7df4;
+  --blue-soft:#eaf3ff;
+  --green:#2faa53;
+  --green-soft:#edf8f0;
+  --border:#dbe5ef;
+  --shadow:0 8px 24px rgba(39,76,119,.10);
+}
+*{box-sizing:border-box}
+html,body{
+  margin:0;min-height:100%;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:var(--bg);color:var(--text)
+}
+body{padding:20px}
+.app{max-width:1200px;margin:0 auto}
+.header{
+  background:#fff;border:1px solid var(--border);border-radius:22px;
+  box-shadow:var(--shadow);padding:20px 22px;margin-bottom:18px
+}
+.header-top{display:flex;align-items:center;gap:14px}
+.logo{
+  width:54px;height:54px;border-radius:16px;display:grid;place-items:center;
+  background:var(--blue-soft);font-size:28px
+}
+h1{margin:0;font-size:28px;color:#10264d}
+.subtitle{margin-top:5px;color:var(--muted);font-size:14px}
+.toolbar{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;margin:0 0 14px
+}
+.back{
+  display:none;border:0;background:#fff;color:#17315f;
+  border-radius:13px;padding:10px 14px;font-weight:900;
+  box-shadow:var(--shadow);cursor:pointer;font-size:14px
+}
+.back.show{display:inline-flex;align-items:center;gap:7px}
+.section-title{font-size:18px;font-weight:900;color:#304665}
+.grid{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px
+}
+.folder,.card{
+  background:var(--card);border:1px solid var(--border);border-radius:20px;
+  overflow:hidden;box-shadow:var(--shadow);text-decoration:none;color:inherit;
+  touch-action:manipulation;cursor:pointer
+}
+.folder{
+  min-height:210px;padding:24px;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center
+}
+.folder:active,.card:active{transform:scale(.985)}
+.folder-icon{
+  width:88px;height:70px;border-radius:15px 15px 18px 18px;
+  background:#f5c94f;position:relative;margin-bottom:14px;
+  box-shadow:inset 0 -5px 0 rgba(0,0,0,.05)
+}
+.folder-icon:before{
+  content:"";position:absolute;left:8px;top:-12px;width:38px;height:16px;
+  background:#f5c94f;border-radius:9px 9px 0 0
+}
+.folder-title{font-size:26px;font-weight:950;color:#10264d}
+.folder-count{margin-top:6px;color:var(--muted);font-size:13px}
+.card{display:flex;flex-direction:column}
+.preview{
+  height:200px;background:#f7f9fc;display:flex;align-items:center;
+  justify-content:center;overflow:hidden;border-bottom:1px solid var(--border)
+}
+.preview img{width:100%;height:100%;object-fit:contain;background:#fff}
+.body{padding:15px 16px 17px;display:flex;gap:12px;align-items:center}
+.icon{
+  width:42px;height:42px;border-radius:13px;flex:0 0 auto;
+  display:grid;place-items:center;background:var(--green-soft);font-size:22px
+}
+.title{font-weight:900;font-size:18px;color:#10264d}
+.sub{margin-top:3px;color:var(--muted);font-size:12px}
+.empty{
+  grid-column:1/-1;background:#fff;border:1px dashed var(--border);
+  border-radius:18px;padding:30px;text-align:center;color:var(--muted)
+}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){
+  body{padding:10px}
+  .header{padding:16px;border-radius:18px}
+  h1{font-size:23px}
+  .grid{grid-template-columns:1fr;gap:12px}
+  .preview{height:170px}
+  .folder{min-height:160px}
+}
+</style>
+
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Exercices tactiles">
+
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <div class="header-top">
+      <div class="logo">🧩</div>
+      <div>
+        <h1 id="pageTitle">Mes exercices tactiles</h1>
+        <div class="subtitle" id="pageSubtitle">Choisis un dossier.</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <button id="backBtn" class="back" type="button">← Dossiers</button>
+    <div id="sectionTitle" class="section-title">Dossiers</div>
+  </div>
+
+  <main id="grid" class="grid"></main>
+</div>
+
+<script src="exercises.js"></script>
+<script>
+function esc(s){
+  return String(s||'').replace(/[&<>"']/g,c=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+  }[c]))
+}
+
+function parseExercise(ex){
+  const title=String(ex.title||'').trim();
+  const m=title.match(/^N\s*(\d+)(?:\s*-\s*(\d+|évaluation|evaluation))?/i);
+
+  if(!m){
+    return {
+      ...ex,
+      n:Number.MAX_SAFE_INTEGER,
+      group:'Autres',
+      sub:Number.MAX_SAFE_INTEGER,
+      isEvaluation:false
+    };
+  }
+
+  const n=Number(m[1]);
+  const tail=String(m[2]||'').toLowerCase();
+  const isEvaluation=/évaluation|evaluation/.test(tail) || /évaluation|evaluation/i.test(title);
+
+  return {
+    ...ex,
+    n,
+    group:'N'+n,
+    sub:isEvaluation ? Number.MAX_SAFE_INTEGER-1 : (tail && /^\d+$/.test(tail) ? Number(tail) : 0),
+    isEvaluation
+  };
+}
+
+function compareExercises(a,b){
+  const pa=parseExercise(a), pb=parseExercise(b);
+  return pa.n-pb.n || pa.sub-pb.sub || String(pa.title).localeCompare(String(pb.title),'fr');
+}
+
+const parsed=(Array.isArray(EXERCISES)?EXERCISES:[]).map(parseExercise);
+
+function groups(){
+  const map=new Map();
+  parsed.forEach(ex=>{
+    if(!map.has(ex.group)) map.set(ex.group,[]);
+    map.get(ex.group).push(ex);
+  });
+
+  return [...map.entries()]
+    .sort((a,b)=>{
+      const na=Number(String(a[0]).replace(/\D/g,'')) || Number.MAX_SAFE_INTEGER;
+      const nb=Number(String(b[0]).replace(/\D/g,'')) || Number.MAX_SAFE_INTEGER;
+      return na-nb || a[0].localeCompare(b[0],'fr');
+    });
+}
+
+function renderFolders(){
+  history.replaceState(null,'',location.pathname+location.search);
+  document.getElementById('backBtn').classList.remove('show');
+  document.getElementById('pageTitle').textContent='Mes exercices tactiles';
+  document.getElementById('pageSubtitle').textContent='Choisis un dossier.';
+  document.getElementById('sectionTitle').textContent='Dossiers';
+
+  const gs=groups();
+  const grid=document.getElementById('grid');
+
+  if(!gs.length){
+    grid.innerHTML='<div class="empty">Aucun exercice disponible.</div>';
+    return;
+  }
+
+  grid.innerHTML=gs.map(([group,items])=>`
+    <button class="folder" type="button" data-group="${esc(group)}">
+      <div class="folder-icon"></div>
+      <div class="folder-title">${esc(group)}</div>
+      <div class="folder-count">${items.length} ${items.length>1?'fiches':'fiche'}</div>
+    </button>
+  `).join('');
+
+  grid.querySelectorAll('.folder').forEach(btn=>{
+    btn.addEventListener('click',()=>openGroup(btn.dataset.group));
+  });
+}
+
+function openGroup(group){
+  const items=parsed
+    .filter(ex=>ex.group===group)
+    .sort((a,b)=>a.sub-b.sub || String(a.title).localeCompare(String(b.title),'fr'));
+
+  history.replaceState(null,'','#'+encodeURIComponent(group));
+  document.getElementById('backBtn').classList.add('show');
+  document.getElementById('pageTitle').textContent=group;
+  document.getElementById('pageSubtitle').textContent='Choisis un exercice.';
+  document.getElementById('sectionTitle').textContent='Exercices '+group;
+
+  const grid=document.getElementById('grid');
+
+  if(!items.length){
+    grid.innerHTML='<div class="empty">Aucun exercice dans ce dossier.</div>';
+    return;
+  }
+
+  grid.innerHTML=items.map(ex=>`
+    <a class="card" href="${esc(ex.file)}">
+      <div class="preview"><img src="${esc(ex.thumbnail)}" alt="${esc(ex.title)}"></div>
+      <div class="body">
+        <div class="icon">${ex.isEvaluation?'✓':'🔢'}</div>
+        <div>
+          <div class="title">${esc(ex.title)}</div>
+          <div class="sub">${esc(ex.subtitle||'Exercice tactile')}</div>
+        </div>
+      </div>
+    </a>
+  `).join('');
+}
+
+document.getElementById('backBtn').addEventListener('click',renderFolders);
+
+const initialGroup=decodeURIComponent((location.hash||'').replace(/^#/,''));
+if(initialGroup && groups().some(([g])=>g===initialGroup)){
+  openGroup(initialGroup);
+}else{
+  renderFolders();
+}
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js')
+      .catch(err => console.error('Service Worker:', err));
+  });
+}
+</script>
+
+</body>
+</html>

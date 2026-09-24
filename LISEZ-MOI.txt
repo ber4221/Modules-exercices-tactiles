@@ -1,0 +1,18 @@
+PLATEFORME EXERCICES TACTILES — V8 — DOSSIERS AUTOMATIQUES
+
+NOUVEAU :
+- La page d'accueil affiche automatiquement un dossier par numéro N.
+- Exemple actuel : dossier N8, dossier N21.
+- Cliquer sur N8 affiche uniquement les fiches N8.
+- L'évaluation reste placée à la fin des exercices du même dossier.
+
+AJOUT AUTOMATIQUE DE DOSSIER :
+Si une nouvelle entrée "N11 - 5" est ajoutée dans exercises.js,
+le dossier N11 apparaît automatiquement sur l'accueil.
+Aucun fichier de dossier n'est à créer manuellement.
+
+Le classement des dossiers est numérique :
+N8, N9, N11, N21...
+
+Le classement dans chaque dossier est également numérique,
+avec l'évaluation à la fin.

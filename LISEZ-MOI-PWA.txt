@@ -1,0 +1,21 @@
+PLATEFORME EXERCICES TACTILES — V9 PWA
+
+Cette version est prête à être hébergée sur GitHub Pages.
+
+Nouveaux fichiers :
+- manifest.webmanifest
+- service-worker.js
+- icons/icon-192.png
+- icons/icon-512.png
+- icons/apple-touch-icon.png
+
+Fonctions PWA :
+- installation sur l'écran d'accueil ;
+- ouverture en mode application ;
+- cache local des fiches existantes ;
+- fonctionnement hors connexion pour les fichiers déjà chargés ;
+- récupération des mises à jour lorsque le réseau est disponible.
+
+IMPORTANT POUR LES FUTURES MISES À JOUR :
+Lorsque de nouvelles fiches sont ajoutées, le fichier service-worker.js devra être
+régénéré ou son CACHE_NAME devra changer pour précharger les nouvelles ressources.
