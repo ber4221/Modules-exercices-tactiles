@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>N22 - 5</title><style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#eef2f5;font-family:Arial,sans-serif}
+body{touch-action:manipulation;color:#24313f}
+.app{max-width:1050px;margin:0 auto;padding:6px}
+.note{background:#fff;padding:10px 12px;border-radius:11px;margin-bottom:7px;font-size:14px;box-shadow:0 1px 5px rgba(0,0,0,.08)}
+.wrap{position:relative;background:#fff;width:100%;margin:0 0 12px 0}
+.sheet{display:block;width:100%;height:auto;pointer-events:none;user-select:none;-webkit-user-drag:none}
+.zone{position:absolute;z-index:5;margin:0;padding:0;border:2px solid transparent;border-radius:8px;background:transparent;appearance:none;-webkit-appearance:none;display:flex;align-items:center;justify-content:center;touch-action:manipulation;cursor:pointer}
+.zone.active{background:rgba(47,170,83,.25);border-color:#2faa53}
+.zone.filled{background:rgba(47,170,83,.10);border-color:#79b98c}
+.zone span{font-size:clamp(34px,5.4vw,72px);font-weight:900;color:#444;line-height:1;letter-spacing:-1px;pointer-events:none;white-space:nowrap}
+.overlay{position:absolute;z-index:40;display:none;background:transparent;pointer-events:none}
+.overlay.show{display:block}
+.panel{width:100%;height:100%;background:rgb(47,170,83);border:2px solid #258945;border-radius:22px;padding:12px;box-shadow:0 8px 26px rgba(0,0,0,.24);pointer-events:auto;display:flex;flex-direction:column;overflow:hidden}
+.head{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-bottom:8px;flex:0 0 auto}
+.preview{min-width:82px;min-height:42px;padding:4px 8px;display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,.8);border-radius:11px;background:#fff;font-size:27px;font-weight:900;color:#34495e}
+.close-pad{width:32px;height:32px;min-width:32px;border:0;border-radius:50%;background:#fff;color:#216b38;font-size:23px;font-weight:900;line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.18);cursor:pointer;touch-action:manipulation}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;flex:1;align-content:stretch;min-height:0}
+.keys button{min-height:0;border:1px solid rgba(0,0,0,.18);border-radius:12px;background:#fff;color:#24313f;font-size:clamp(22px,3.5vw,38px);font-weight:900;cursor:pointer;touch-action:manipulation;display:flex;align-items:center;justify-content:center;padding:0;line-height:1;text-align:center}
+.keys .op{background:#edf5ff;color:#245fa6}
+.keys .erase{background:#ffe3e3;color:#a51f1f;border-color:#e0a6a6}
+.keys button:active{transform:scale(.97)}
+.zero{grid-column:2 / span 2}
+.status{position:sticky;bottom:5px;z-index:20;margin-top:6px;background:#fff;padding:9px 11px;border-radius:9px;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,.10)}
+.mini{position:fixed;right:12px;bottom:12px;z-index:60;width:58px;height:58px;border:0;border-radius:14px;background:#263746;color:#fff;font-size:27px;font-weight:900;box-shadow:0 4px 16px rgba(0,0,0,.25);cursor:pointer}
+@media(max-width:720px){.panel{padding:7px;border-radius:16px}.keys{gap:4px}.keys button{font-size:22px;border-radius:8px}.preview{min-width:58px;min-height:32px;font-size:19px}.close-pad{width:26px;height:26px;min-width:26px;font-size:18px}.note{font-size:12px}}
+
+.home-link{position:fixed;left:10px;bottom:10px;z-index:70;text-decoration:none;background:#fff;color:#263746;border-radius:12px;padding:9px 12px;font-weight:900;font-size:14px;box-shadow:0 3px 12px rgba(0,0,0,.18)}
+
+</style></head><body><a href="../index.html" class="home-link">🏠 Accueil</a><div class="app"><div class="note"><b>N22 - 5</b> — 15 cases actives : un seul chiffre. La première réponse « 1 » reste inactive. Le pavé s’ouvre sur un exercice adjacent.</div><div class="wrap"><img class="sheet" src="../images/N22-5.jpg"><button class="zone" type="button" data-mode="number" data-pad-left="2.5" data-pad-top="18.0" data-pad-width="29.0" data-pad-height="21.0" style="left:38.368%;top:28.271%;width:9.103%;height:4.883%"><span></span></button><button class="zone" type="button" data-mode="number" data-pad-left="69.0" data-pad-top="18.0" data-pad-width="29.0" data-pad-height="21.0" style="left:61.699%;top:28.271%;width:9.103%;height:4.883%"><span></span></button><button class="zone" type="button" data-mode="number" data-pad-left="45.0" data-pad-top="18.0" data-pad-width="29.0" data-pad-height="21.0" style="left:85.03%;top:28.271%;width:9.103%;height:4.883%"><span></span></button><button class="zone" type="button" data-mode="number" data-pad-left="26.0" data-pad-top="36.5" data-pad-width="29.0" data-pad-height="21.0" style="left:15.037%;top:46.826%;width:9.103%;height:4.883%"><span></span></button><button class="zone" type="button" data-mode="number" data-pad-left="2.5" data-pad-top="36.5" data-pad-width="29.0" data-pad-height="21.0" style="left:38.368%;top:46.826%;width:9.103%;height:4.883%"><span></span></button><button class="zone" type="button" data-mode="number" data-pad-left="69.0" data-pad-top="36.5" data-pad-width="29.0" data-pad-height="21.0" style="left:61.699%;top:46.826%;width:9.103%;height:4.883%"><span></span></button><button class="zone" type="button" data-mode="number" data-pad-left="45.0" data-pad-top="36.5" data-pad-width="29.0" data-pad-height="21.0" style="left:85.03%;top:46.826%;width:9.103%;height:4.883%"><span></span></button><button class="zone" type="button" data-mode="number" data-pad-left="26.0" data-pad-top="54.5" data-pad-width="29.0" data-pad-height="21.0" style="left:15.037%;top:64.893%;width:9.103%;height:4.883%"><span></span></button><button class="zone" type="button" data-mode="number" data-pad-left="2.5" data-pad-top="54.5" data-pad-width="29.0" data-pad-height="21.0" style="left:38.368%;top:64.893%;width:9.103%;height:4.883%"><span></span></button><button class="zone" type="button" data-mode="number" data-pad-left="69.0" data-pad-top="54.5" data-pad-width="29.0" data-pad-height="21.0" style="left:61.699%;top:64.893%;width:9.103%;height:4.883%"><span></span></button><button class="zone" type="button" data-mode="number" data-pad-left="45.0" data-pad-top="54.5" data-pad-width="29.0" data-pad-height="21.0" style="left:85.03%;top:64.893%;width:9.103%;height:4.883%"><span></span></button><button class="zone" type="button" data-mode="number" data-pad-left="26.0" data-pad-top="72.0" data-pad-width="29.0" data-pad-height="21.0" style="left:15.037%;top:83.594%;width:9.103%;height:4.883%"><span></span></button><button class="zone" type="button" data-mode="number" data-pad-left="2.5" data-pad-top="72.0" data-pad-width="29.0" data-pad-height="21.0" style="left:38.368%;top:83.594%;width:9.103%;height:4.883%"><span></span></button><button class="zone" type="button" data-mode="number" data-pad-left="69.0" data-pad-top="72.0" data-pad-width="29.0" data-pad-height="21.0" style="left:61.699%;top:83.594%;width:9.103%;height:4.883%"><span></span></button><button class="zone" type="button" data-mode="number" data-pad-left="45.0" data-pad-top="72.0" data-pad-width="29.0" data-pad-height="21.0" style="left:85.03%;top:83.594%;width:9.103%;height:4.883%"><span></span></button></div><div id="status" class="status">Touchez une des 15 cases blanches. La première réponse déjà remplie reste inactive.</div></div><button id="mini" class="mini" type="button" aria-label="Ouvrir le pavé">🔢</button><div id="overlay" class="overlay"><div class="panel"><div class="head"><div id="preview" class="preview">—</div><button id="btnClosePad" class="close-pad" type="button" aria-label="Réduire le pavé">×</button></div><div class="keys"><button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button><button class="op" data-k="+">+</button><button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button><button class="op" data-k="-">−</button><button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button><button class="erase" data-k="ERASE" title="Effacer la réponse">⌫</button><button class="zero" data-k="0">0</button></div></div></div><script>
+(() => {
+  const zones=[...document.querySelectorAll('.zone')];
+  const overlay=document.getElementById('overlay');
+  const mini=document.getElementById('mini');
+  const preview=document.getElementById('preview');
+  const status=document.getElementById('status');
+  let active=null, entry='';
+  function refresh(){preview.textContent=entry || '—'}
+  function place(z){
+    const wrap=z.closest('.wrap');
+    wrap.appendChild(overlay);
+    overlay.style.left=z.dataset.padLeft+'%';
+    overlay.style.top=z.dataset.padTop+'%';
+    overlay.style.width=z.dataset.padWidth+'%';
+    overlay.style.height=z.dataset.padHeight+'%';
+  }
+  function openPad(z){
+    if(z) active=z;
+    if(!active){status.textContent='Touchez d’abord une case blanche.';return}
+    zones.forEach(x=>x.classList.toggle('active',x===active));
+    entry=''; refresh(); place(active); overlay.classList.add('show'); mini.style.display='none';
+    status.textContent='Choisis un chiffre.';
+  }
+  function closePad(){overlay.classList.remove('show');mini.style.display='block'}
+  function saveAndClose(value){
+    active.dataset.value=value; active.querySelector('span').textContent=value;
+    active.classList.remove('active'); active.classList.add('filled');
+    status.textContent='✓ Réponse enregistrée : '+value; entry=''; refresh(); closePad();
+  }
+  zones.forEach(z=>z.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();openPad(z)}));
+  document.querySelectorAll('[data-k]').forEach(btn=>btn.addEventListener('click',()=>{
+    if(!active)return;
+    const k=btn.dataset.k;
+    if(k==='ERASE'){
+      active.dataset.value='';active.querySelector('span').textContent='';active.classList.remove('filled','active');entry='';refresh();status.textContent='Réponse effacée.';closePad();return;
+    }
+    if(!/^\d$/.test(k)){status.textContent='Cette case attend uniquement un chiffre.';return}
+    saveAndClose(k);
+  }));
+  mini.addEventListener('click',()=>openPad(active));
+  document.getElementById('btnClosePad').addEventListener('click',()=>{if(active)active.classList.remove('active');entry='';refresh();closePad();status.textContent='Pavé réduit. Touchez une case pour le rouvrir.'});
+})();
+</script></body></html>
