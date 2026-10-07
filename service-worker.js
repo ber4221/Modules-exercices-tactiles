@@ -1,16 +1,29 @@
-const CACHE_NAME = 'exercices-tactiles-v2';
+const CACHE_NAME = 'exercices-tactiles-v4';
 const PRECACHE = [
   "./LISEZ-MOI.txt",
+  "./exercices/N21-1.html",
   "./exercices/N21-3.html",
   "./exercices/N21-4.html",
+  "./exercices/N21-6.html",
+  "./exercices/N21-evaluation.html",
+  "./exercices/N22-1.html",
+  "./exercices/N22-4.html",
+  "./exercices/N22-5.html",
   "./exercices/N8-4.html",
   "./exercices/N8-evaluation.html",
   "./exercises.js",
   "./icons/apple-touch-icon.png",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
+  "./images/N21-1a.jpg",
+  "./images/N21-1b.jpg",
   "./images/N21-3.jpg",
   "./images/N21-4.jpg",
+  "./images/N21-6.jpg",
+  "./images/N21-evaluation.jpg",
+  "./images/N22-1.jpg",
+  "./images/N22-4.jpg",
+  "./images/N22-5.jpg",
   "./images/N8-4.jpg",
   "./images/N8-evaluation.jpg",
   "./index.html",
@@ -39,8 +52,6 @@ self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
 
-  // HTML / JS / manifest : réseau d'abord pour récupérer rapidement les mises à jour,
-  // cache en secours si la tablette est hors connexion.
   if (
     event.request.mode === 'navigate' ||
     url.pathname.endsWith('.html') ||
@@ -61,7 +72,6 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Images / icônes : cache d'abord, puis réseau.
   event.respondWith(
     caches.match(event.request).then(cached => {
       if (cached) return cached;
