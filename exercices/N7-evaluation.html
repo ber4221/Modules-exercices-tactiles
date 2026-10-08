@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>N7 - évaluation</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#eef2f5;font-family:Arial,sans-serif;color:#24313f}
+body{touch-action:manipulation}
+.app{max-width:1050px;margin:0 auto;padding:6px}
+.note{background:#fff;padding:10px 12px;border-radius:11px;margin-bottom:7px;font-size:14px;line-height:1.35;box-shadow:0 1px 5px rgba(0,0,0,.08)}
+.wrap{position:relative;background:#fff;width:100%;margin:0}
+.sheet{display:block;width:100%;height:auto;pointer-events:none;user-select:none;-webkit-user-drag:none}
+.dot-zone,.num-zone{position:absolute;z-index:5;border:0;background:transparent;padding:0;margin:0;appearance:none;-webkit-appearance:none;cursor:pointer;touch-action:manipulation;border-radius:10px}
+.dot-zone:focus-visible,.num-zone:focus-visible{outline:3px solid rgba(47,170,83,.75);outline-offset:2px}
+.dot-zone.flash{background:rgba(47,170,83,.06)}
+.dot{position:absolute;z-index:20;width:8mm;height:8mm;min-width:8mm;min-height:8mm;border-radius:50%;background:#000;transform:translate(-50%,-50%);border:0;padding:0;margin:0;cursor:pointer;touch-action:manipulation}
+.dot:focus-visible{outline:3px solid #2faa53;outline-offset:2px}
+.num-zone{display:flex;align-items:center;justify-content:center}
+.num-zone.active{background:rgba(47,170,83,.18);outline:none;box-shadow:inset 0 0 0 3px #2faa53;border-radius:12px}
+.num-zone.filled{background:rgba(47,170,83,.08);border-radius:12px}
+.num-zone span{font-size:clamp(42px,6vw,78px);font-weight:900;color:#444;line-height:1;pointer-events:none}
+.overlay{position:absolute;z-index:40;display:none;background:transparent;pointer-events:none}
+.overlay.show{display:block}
+.panel{width:100%;height:100%;background:rgb(47,170,83);border:2px solid #258945;border-radius:20px;padding:9px;box-shadow:0 8px 26px rgba(0,0,0,.24);pointer-events:auto;display:flex;flex-direction:column;overflow:hidden}
+.pad-head{display:flex;justify-content:flex-end;align-items:center;gap:7px;margin-bottom:7px;flex:0 0 auto}
+.preview{min-width:66px;min-height:34px;padding:3px 7px;display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,.85);border-radius:10px;background:#fff;font-size:23px;font-weight:900;color:#34495e}
+.close-pad{width:29px;height:29px;min-width:29px;border:0;border-radius:50%;background:#fff;color:#216b38;font-size:20px;font-weight:900;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;flex:1;min-height:0}
+.keys button{min-height:0;border:1px solid rgba(0,0,0,.18);border-radius:10px;background:#fff;color:#24313f;font-size:clamp(21px,3.4vw,36px);font-weight:900;cursor:pointer;touch-action:manipulation;display:flex;align-items:center;justify-content:center;padding:0;line-height:1}
+.keys .erase{background:#ffe3e3;color:#a51f1f;border-color:#e0a6a6}
+.keys .zero{grid-column:2 / span 2}
+.controls{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;background:#fff;padding:9px 11px;border-radius:0 0 10px 10px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.status{font-size:13px;flex:1;min-width:220px}
+.reset{border:0;border-radius:9px;background:#263746;color:#fff;padding:10px 14px;font-weight:700;font-size:14px;cursor:pointer;touch-action:manipulation}
+@media(max-width:720px){.note{font-size:12px}.status{font-size:12px}.reset{font-size:13px;padding:9px 11px}.panel{padding:6px;border-radius:15px}.keys{gap:4px}.keys button{font-size:21px;border-radius:8px}.preview{min-width:55px;min-height:29px;font-size:18px}.close-pad{width:25px;height:25px;min-width:25px;font-size:17px}}
+
+.home-link{position:fixed;left:10px;bottom:10px;z-index:70;text-decoration:none;background:#fff;color:#263746;border-radius:12px;padding:9px 12px;font-weight:900;font-size:14px;box-shadow:0 3px 12px rgba(0,0,0,.18)}
+</style>
+</head>
+<body>
+<a href="../index.html" class="home-link">🏠 Accueil</a>
+<div class="app">
+  <div class="note"><b>N7 - évaluation</b> — En haut, touchez les cadres violets pour ajouter des points noirs dans les positions sûres. La zone verticale utile est réduite à 85 %. Touchez un point noir pour l’effacer. En bas, touchez une case blanche pour encoder un seul chiffre.</div>
+  <div id="wrap" class="wrap">
+    <img class="sheet" src="../images/N7-evaluation.jpg" alt="N7 évaluation">
+
+    <button class="dot-zone" type="button" data-card="0" aria-label="Ajouter un point dans l'exercice 1" style="left:7.742%;top:16.229%;width:19.839%;height:12.493%"></button>
+    <button class="dot-zone" type="button" data-card="1" aria-label="Ajouter un point dans l'exercice 2" style="left:37.581%;top:16.229%;width:20.565%;height:12.493%"></button>
+    <button class="dot-zone" type="button" data-card="2" aria-label="Ajouter un point dans l'exercice 3" style="left:68.871%;top:16.229%;width:20.565%;height:12.493%"></button>
+    <button class="dot-zone" type="button" data-card="3" aria-label="Ajouter un point dans l'exercice 4" style="left:7.742%;top:36.252%;width:19.839%;height:12.609%"></button>
+    <button class="dot-zone" type="button" data-card="4" aria-label="Ajouter un point dans l'exercice 5" style="left:37.581%;top:36.252%;width:20.565%;height:12.609%"></button>
+    <button class="dot-zone" type="button" data-card="5" aria-label="Ajouter un point dans l'exercice 6" style="left:68.871%;top:36.252%;width:20.565%;height:12.609%"></button>
+
+    <button class="num-zone" type="button" data-pad-left="55.0" data-pad-top="56.0" data-pad-width="29.0" data-pad-height="21.0" aria-label="Réponse exercice poissons" style="left:23.710%;top:69.586%;width:12.177%;height:5.487%"><span></span></button>
+    <button class="num-zone" type="button" data-pad-left="16.0" data-pad-top="56.0" data-pad-width="29.0" data-pad-height="21.0" aria-label="Réponse exercice insectes" style="left:68.710%;top:69.586%;width:12.177%;height:5.487%"><span></span></button>
+    <button class="num-zone" type="button" data-pad-left="55.0" data-pad-top="76.0" data-pad-width="29.0" data-pad-height="21.0" aria-label="Réponse exercice ascenseur" style="left:23.710%;top:92.294%;width:12.177%;height:5.487%"><span></span></button>
+    <button class="num-zone" type="button" data-pad-left="16.0" data-pad-top="76.0" data-pad-width="29.0" data-pad-height="21.0" aria-label="Réponse exercice oiseaux" style="left:68.710%;top:92.294%;width:12.177%;height:5.487%"><span></span></button>
+  </div>
+  <div class="controls"><div id="status" class="status">Touchez un cadre violet pour ajouter un point, ou une case blanche du bas pour encoder un chiffre.</div><button id="reset" class="reset" type="button">Réinitialiser</button></div>
+</div>
+
+<div id="overlay" class="overlay">
+  <div class="panel">
+    <div class="pad-head"><div id="preview" class="preview">—</div><button id="closePad" class="close-pad" type="button" aria-label="Fermer le pavé">×</button></div>
+    <div class="keys">
+      <button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button><button class="erase" data-k="ERASE">⌫</button>
+      <button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button><button data-k="7">7</button>
+      <button data-k="8">8</button><button data-k="9">9</button><button class="zero" data-k="0">0</button>
+    </div>
+  </div>
+</div>
+<script>
+(() => {
+  const wrap=document.getElementById('wrap');
+  const sheet=wrap.querySelector('.sheet');
+  const status=document.getElementById('status');
+  const sourceW=1240, sourceH=1713;
+
+  // Positions sûres mesurées directement sur l'image source.
+  // Elles restent dans la moitié droite des cadres blancs et évitent les points bleus déjà présents.
+  const slotsByCard={
+    0:[[260,335],[322,390],[260,445],[322,335],[260,390],[322,445]],
+    1:[[642,335],[704,390],[642,445],[704,335],[642,390],[704,445]],
+    2:[[1020,335],[1082,390],[1020,445],[1082,335],[1020,390],[1082,445]],
+    3:[[260,675],[322,730],[260,785],[322,675],[260,730],[322,785]],
+    4:[[642,675],[704,730],[642,785],[704,675],[642,730],[704,785]],
+    5:[[1020,675],[1082,730],[1020,785],[1082,675],[1020,730],[1082,785]]
+  };
+  const occupied=new Map(Object.keys(slotsByCard).map(k=>[Number(k),new Set()]));
+
+  function sourceToWrap(x,y){
+    const r=sheet.getBoundingClientRect(), wr=wrap.getBoundingClientRect();
+    return {x:(r.left-wr.left)+(x/sourceW)*r.width,y:(r.top-wr.top)+(y/sourceH)*r.height};
+  }
+  function positionDot(dot){
+    const card=Number(dot.dataset.card), slot=Number(dot.dataset.slot), p=slotsByCard[card]?.[slot];
+    if(!p)return;
+    const pos=sourceToWrap(p[0],p[1]); dot.style.left=pos.x+'px'; dot.style.top=pos.y+'px';
+  }
+  function layoutDots(){wrap.querySelectorAll('.dot').forEach(positionDot)}
+  function removeDot(dot){
+    const card=Number(dot.dataset.card), slot=Number(dot.dataset.slot);
+    occupied.get(card)?.delete(slot); dot.remove(); status.textContent='Point retiré.';
+  }
+  function addDot(card){
+    const slots=slotsByCard[card]||[], used=occupied.get(card);
+    const slot=slots.findIndex((_,i)=>!used.has(i));
+    if(slot<0){status.textContent='Toutes les positions sûres de cette case sont utilisées. Touchez un point noir pour l’enlever.';return}
+    used.add(slot);
+    const dot=document.createElement('button');
+    dot.type='button'; dot.className='dot'; dot.dataset.card=String(card); dot.dataset.slot=String(slot); dot.setAttribute('aria-label','Retirer ce point');
+    wrap.appendChild(dot); positionDot(dot);
+    const onRemove=e=>{e.preventDefault();e.stopPropagation();removeDot(dot)};
+    if('PointerEvent' in window) dot.addEventListener('pointerup',onRemove); else dot.addEventListener('click',onRemove);
+    status.textContent='Point ajouté.';
+  }
+  document.querySelectorAll('.dot-zone').forEach(zone=>{
+    const go=e=>{e.preventDefault();e.stopPropagation();addDot(Number(zone.dataset.card));zone.classList.add('flash');setTimeout(()=>zone.classList.remove('flash'),120)};
+    if('PointerEvent' in window) zone.addEventListener('pointerup',go); else zone.addEventListener('click',go);
+  });
+
+  const overlay=document.getElementById('overlay'), preview=document.getElementById('preview');
+  const numZones=[...document.querySelectorAll('.num-zone')]; let active=null;
+  function placePad(z){
+    wrap.appendChild(overlay); overlay.style.left=z.dataset.padLeft+'%'; overlay.style.top=z.dataset.padTop+'%'; overlay.style.width=z.dataset.padWidth+'%'; overlay.style.height=z.dataset.padHeight+'%';
+  }
+  function openPad(z){
+    active=z; numZones.forEach(x=>x.classList.toggle('active',x===z)); preview.textContent='—'; placePad(z); overlay.classList.add('show'); status.textContent='Choisis un chiffre.';
+  }
+  function closePad(){overlay.classList.remove('show'); if(active)active.classList.remove('active')}
+  numZones.forEach(z=>{
+    const go=e=>{e.preventDefault();e.stopPropagation();openPad(z)};
+    if('PointerEvent' in window) z.addEventListener('pointerup',go); else z.addEventListener('click',go);
+  });
+  document.querySelectorAll('[data-k]').forEach(btn=>btn.addEventListener('click',e=>{
+    e.preventDefault(); e.stopPropagation(); if(!active)return; const k=btn.dataset.k;
+    if(k==='ERASE'){active.querySelector('span').textContent='';active.classList.remove('filled');preview.textContent='—';status.textContent='Réponse effacée.';closePad();return}
+    if(!/^\d$/.test(k))return;
+    active.querySelector('span').textContent=k; active.classList.add('filled'); preview.textContent=k; status.textContent='✓ Réponse enregistrée : '+k; closePad();
+  }));
+  document.getElementById('closePad').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();closePad();status.textContent='Pavé fermé.'});
+
+  document.getElementById('reset').addEventListener('click',()=>{
+    wrap.querySelectorAll('.dot').forEach(d=>d.remove()); occupied.forEach(s=>s.clear()); numZones.forEach(z=>{z.querySelector('span').textContent='';z.classList.remove('filled','active')}); closePad(); status.textContent='Tout a été réinitialisé.';
+  });
+  let t=null; window.addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(layoutDots,60)});
+  if(sheet.complete)layoutDots(); else sheet.addEventListener('load',layoutDots,{once:true});
+})();
+</script>
+</body>
+</html>

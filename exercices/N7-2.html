@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>N7 - 2</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#eef2f5;font-family:Arial,sans-serif;color:#24313f}
+body{touch-action:manipulation}
+.app{max-width:1050px;margin:0 auto;padding:6px}
+.note{background:#fff;padding:10px 12px;border-radius:11px;margin-bottom:7px;font-size:14px;line-height:1.35;box-shadow:0 1px 5px rgba(0,0,0,.08)}
+.wrap{position:relative;background:#fff;width:100%;margin:0}
+.sheet{display:block;width:100%;height:auto;pointer-events:none;user-select:none;-webkit-user-drag:none}
+.card-zone{position:absolute;z-index:5;border:0;background:transparent;padding:0;margin:0;appearance:none;-webkit-appearance:none;cursor:pointer;touch-action:manipulation;border-radius:10px}
+.card-zone:focus-visible{outline:3px solid rgba(47,170,83,.75);outline-offset:2px}
+.card-zone.flash{background:rgba(47,170,83,.08)}
+.dot{position:absolute;z-index:12;width:8mm;height:8mm;min-width:8mm;min-height:8mm;border-radius:50%;background:#000;transform:translate(-50%,-50%);border:0;padding:0;margin:0;cursor:pointer;touch-action:manipulation;box-shadow:none}
+.dot:focus-visible{outline:3px solid #2faa53;outline-offset:2px}
+.controls{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;background:#fff;padding:9px 11px;border-radius:0 0 10px 10px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.status{font-size:13px;flex:1;min-width:220px}
+.reset{border:0;border-radius:9px;background:#263746;color:#fff;padding:10px 14px;font-weight:700;font-size:14px;cursor:pointer;touch-action:manipulation}
+@media(max-width:720px){.note{font-size:12px}.status{font-size:12px}.reset{font-size:13px;padding:9px 11px}}
+
+.home-link{position:fixed;left:10px;bottom:10px;z-index:70;text-decoration:none;background:#fff;color:#263746;border-radius:12px;padding:9px 12px;font-weight:900;font-size:14px;box-shadow:0 3px 12px rgba(0,0,0,.18)}
+</style>
+</head>
+<body>
+<a href="../index.html" class="home-link">🏠 Accueil</a>
+<div class="app">
+  <div class="note"><b>N7 - 2</b> — Touchez une case violette pour ajouter un point noir d’environ 8 mm. Les points utilisent uniquement des positions sûres dans la moitié droite, sans toucher le cadre ni les points imprimés. Le premier exercice reste inactif. Touchez un point noir pour l’effacer.</div>
+  <div id="wrap" class="wrap">
+    <img class="sheet" src="../images/N7-2.jpg" alt="N7 exercice 2">
+    <button class="card-zone" type="button" data-card="1" aria-label="Ajouter un point dans l’exercice 2" style="left:39.3548%;top:19.3228%;width:20.4839%;height:9.9241%"></button><button class="card-zone" type="button" data-card="2" aria-label="Ajouter un point dans l’exercice 3" style="left:70.0806%;top:19.3228%;width:20.4839%;height:9.9241%"></button><button class="card-zone" type="button" data-card="3" aria-label="Ajouter un point dans l’exercice 4" style="left:8.7097%;top:39.8132%;width:20.4839%;height:9.9241%"></button><button class="card-zone" type="button" data-card="4" aria-label="Ajouter un point dans l’exercice 5" style="left:39.3548%;top:39.8132%;width:20.4032%;height:9.9241%"></button><button class="card-zone" type="button" data-card="5" aria-label="Ajouter un point dans l’exercice 6" style="left:70.0000%;top:39.8132%;width:20.4839%;height:9.9241%"></button><button class="card-zone" type="button" data-card="6" aria-label="Ajouter un point dans l’exercice 7" style="left:8.7097%;top:60.6538%;width:20.4032%;height:9.9241%"></button><button class="card-zone" type="button" data-card="7" aria-label="Ajouter un point dans l’exercice 8" style="left:39.2742%;top:60.6538%;width:20.4032%;height:9.9241%"></button><button class="card-zone" type="button" data-card="8" aria-label="Ajouter un point dans l’exercice 9" style="left:70.0000%;top:60.5954%;width:20.4032%;height:9.9241%"></button><button class="card-zone" type="button" data-card="9" aria-label="Ajouter un point dans l’exercice 10" style="left:8.7097%;top:81.1442%;width:20.4032%;height:9.9241%"></button><button class="card-zone" type="button" data-card="10" aria-label="Ajouter un point dans l’exercice 11" style="left:39.2742%;top:81.1442%;width:20.4032%;height:9.9241%"></button><button class="card-zone" type="button" data-card="11" aria-label="Ajouter un point dans l’exercice 12" style="left:70.0000%;top:81.0858%;width:20.4032%;height:9.9241%"></button>
+  </div>
+  <div class="controls"><div id="status" class="status">Touchez une des 11 cases actives pour ajouter un point.</div><button id="reset" class="reset" type="button">Réinitialiser les points</button></div>
+</div>
+<script>
+(() => {
+  const wrap=document.getElementById('wrap');
+  const sheet=wrap.querySelector('.sheet');
+  const status=document.getElementById('status');
+  const zones=[...document.querySelectorAll('.card-zone')];
+  const sourceW=1240, sourceH=1713;
+
+  // Positions sûres mesurées directement sur l'image source (1240 × 1713).
+  // Elles se trouvent dans la moitié droite de la zone blanche réelle et évitent
+  // les points déjà imprimés. L'ordre volontairement irrégulier donne un rendu éparpillé.
+  const slotsByCard={
+    1:[[713,360],[644,472],[713,416],[644,416],[713,472],[644,360]],
+    2:[[1094,360],[1025,472],[1094,416],[1094,472],[1025,360]],
+    3:[[333,711],[264,823],[333,767],[264,767],[333,823],[264,711]],
+    4:[[712,711],[643.5,823],[712,767],[643.5,767],[712,823],[643.5,711]],
+    5:[[1093,711],[1024,823],[1093,767],[1024,767],[1093,823],[1024,711]],
+    6:[[332,1068],[332,1124],[332,1180]],
+    7:[[711,1068],[642.5,1180],[711,1124],[642.5,1124],[711,1180],[642.5,1068]],
+    8:[[1092,1067],[1023.5,1179],[1092,1123],[1023.5,1123],[1092,1179],[1023.5,1067]],
+    9:[[332,1419],[263.5,1531],[332,1475],[263.5,1475],[332,1531],[263.5,1419]],
+    10:[[711,1419],[642.5,1531],[711,1475],[642.5,1475],[711,1531]],
+    11:[[1092,1418],[1023.5,1530],[1092,1474],[1023.5,1474],[1092,1530],[1023.5,1418]]
+  };
+
+  const occupied=new Map();
+  Object.keys(slotsByCard).forEach(k=>occupied.set(Number(k),new Set()));
+
+  function sourceToWrap(x,y){
+    const r=sheet.getBoundingClientRect();
+    const wr=wrap.getBoundingClientRect();
+    return {
+      x:(r.left-wr.left)+(x/sourceW)*r.width,
+      y:(r.top-wr.top)+(y/sourceH)*r.height
+    };
+  }
+
+  function positionDot(dot){
+    const card=Number(dot.dataset.card);
+    const slot=Number(dot.dataset.slot);
+    const p=slotsByCard[card]?.[slot];
+    if(!p) return;
+    const pos=sourceToWrap(p[0],p[1]);
+    dot.style.left=pos.x+'px';
+    dot.style.top=pos.y+'px';
+  }
+
+  function layoutDots(){
+    wrap.querySelectorAll('.dot').forEach(positionDot);
+  }
+
+  function removeDot(dot){
+    const card=Number(dot.dataset.card);
+    const slot=Number(dot.dataset.slot);
+    occupied.get(card)?.delete(slot);
+    dot.remove();
+    status.textContent='Point retiré. Vous pouvez continuer.';
+  }
+
+  function addDot(card){
+    const slots=slotsByCard[card]||[];
+    const used=occupied.get(card);
+    const slot=slots.findIndex((_,i)=>!used.has(i));
+    if(slot<0){
+      status.textContent='Toutes les positions sûres de cette case sont déjà utilisées. Touchez un point pour l’enlever.';
+      return;
+    }
+
+    used.add(slot);
+    const dot=document.createElement('button');
+    dot.type='button';
+    dot.className='dot';
+    dot.dataset.card=String(card);
+    dot.dataset.slot=String(slot);
+    dot.setAttribute('aria-label','Retirer ce point');
+    wrap.appendChild(dot);
+    positionDot(dot);
+
+    const onRemove=e=>{
+      e.preventDefault();
+      e.stopPropagation();
+      removeDot(dot);
+    };
+    if('PointerEvent' in window) dot.addEventListener('pointerup',onRemove);
+    else dot.addEventListener('click',onRemove);
+
+    status.textContent='Point ajouté sans contact avec le cadre ni avec les points déjà imprimés.';
+  }
+
+  function activateZone(zone,e){
+    e.preventDefault();
+    e.stopPropagation();
+    addDot(Number(zone.dataset.card));
+    zone.classList.add('flash');
+    setTimeout(()=>zone.classList.remove('flash'),120);
+  }
+
+  zones.forEach(zone=>{
+    if('PointerEvent' in window) zone.addEventListener('pointerup',e=>activateZone(zone,e));
+    else zone.addEventListener('click',e=>activateZone(zone,e));
+  });
+
+  document.getElementById('reset').addEventListener('click',()=>{
+    wrap.querySelectorAll('.dot').forEach(dot=>dot.remove());
+    occupied.forEach(set=>set.clear());
+    status.textContent='Tous les points ont été effacés.';
+  });
+
+  let resizeTimer=null;
+  window.addEventListener('resize',()=>{
+    clearTimeout(resizeTimer);
+    resizeTimer=setTimeout(layoutDots,60);
+  });
+  if(sheet.complete) layoutDots();
+  else sheet.addEventListener('load',layoutDots,{once:true});
+})();
+</script>
+</body>
+</html>

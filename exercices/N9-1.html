@@ -1,0 +1,42 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>N9 - 1</title><style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#eef2f5;font-family:Arial,sans-serif}
+body{touch-action:manipulation;color:#24313f}
+.app{max-width:1050px;margin:0 auto;padding:6px}
+.note{background:#fff;padding:10px 12px;border-radius:11px;margin-bottom:7px;font-size:14px;box-shadow:0 1px 5px rgba(0,0,0,.08)}
+.page-label{font-weight:900;margin:14px 0 5px 2px}
+.wrap{position:relative;background:#fff;width:100%;margin:0 0 12px 0}
+.sheet{display:block;width:100%;height:auto;pointer-events:none;user-select:none;-webkit-user-drag:none}
+.zone{position:absolute;z-index:5;margin:0;padding:0;border:2px solid transparent;border-radius:8px;background:transparent;appearance:none;-webkit-appearance:none;display:flex;align-items:center;justify-content:center;touch-action:manipulation;cursor:pointer}
+.zone.active{background:rgba(47,170,83,.25);border-color:#2faa53}
+.zone.filled{background:rgba(47,170,83,.10);border-color:#79b98c}
+.zone span{font-size:clamp(40px,6.2vw,86px);font-weight:900;color:#444;line-height:1;letter-spacing:-1px;pointer-events:none;white-space:nowrap}
+.overlay{position:absolute;z-index:40;display:none;background:transparent;pointer-events:none}
+.overlay.show{display:block}
+.panel{width:100%;height:100%;background:rgb(47,170,83);border:2px solid #258945;border-radius:22px;padding:10px;box-shadow:0 8px 26px rgba(0,0,0,.24);pointer-events:auto;display:flex;flex-direction:column;overflow:hidden}
+.head{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-bottom:8px;flex:0 0 auto}
+.preview{min-width:76px;min-height:38px;padding:4px 8px;display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,.8);border-radius:11px;background:#fff;font-size:25px;font-weight:900;color:#34495e}
+.close-pad{width:30px;height:30px;min-width:30px;border:0;border-radius:50%;background:#fff;color:#216b38;font-size:21px;font-weight:900;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;flex:1;min-height:0}
+.keys button{min-height:0;border:1px solid rgba(0,0,0,.18);border-radius:11px;background:#fff;color:#24313f;font-size:clamp(22px,3.6vw,40px);font-weight:900;cursor:pointer;touch-action:manipulation;display:flex;align-items:center;justify-content:center;padding:0;line-height:1;text-align:center}
+.keys .op{background:#edf5ff;color:#245fa6}
+.keys .erase{background:#ffe3e3;color:#a51f1f;border-color:#e0a6a6}
+.keys button:active{transform:scale(.97)}
+.zero{grid-column:2 / span 2}
+.status{position:sticky;bottom:5px;z-index:20;margin-top:6px;background:#fff;padding:9px 11px;border-radius:9px;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,.10)}
+.home-link{position:fixed;left:10px;bottom:10px;z-index:70;text-decoration:none;background:#fff;color:#263746;border-radius:12px;padding:9px 12px;font-weight:900;font-size:14px;box-shadow:0 3px 12px rgba(0,0,0,.18)}
+.mini{position:fixed;right:12px;bottom:12px;z-index:60;width:58px;height:58px;border:0;border-radius:14px;background:#263746;color:#fff;font-size:27px;font-weight:900;box-shadow:0 4px 16px rgba(0,0,0,.25);cursor:pointer}
+@media(max-width:720px){.panel{padding:6px;border-radius:15px}.keys{gap:4px}.keys button{font-size:21px;border-radius:8px}.preview{min-width:55px;min-height:29px;font-size:18px}.close-pad{width:25px;height:25px;min-width:25px;font-size:17px}.note{font-size:12px}}
+</style></head><body><a href="../index.html" class="home-link">🏠 Accueil</a><div class="app"><div class="note"><b>N9 - 1</b> — 8 cases actives : un seul chiffre. La première réponse « 5 » reste inactive.</div><div class="wrap"><img class="sheet" src="../images/N9-1.jpg" alt="N9 exercice 1"><button class="zone" type="button" data-mode="number" data-pad-left="67.4" data-pad-top="20.0" data-pad-width="30.5" data-pad-height="22.0" style="left:54.1470%;top:34.2285%;width:8.4289%;height:5.4688%"><span></span></button><button class="zone" type="button" data-mode="number" data-pad-left="35.0" data-pad-top="20.0" data-pad-width="30.5" data-pad-height="22.0" style="left:85.7047%;top:34.2285%;width:8.3614%;height:5.4688%"><span></span></button><button class="zone" type="button" data-mode="number" data-pad-left="35.0" data-pad-top="47.0" data-pad-width="30.5" data-pad-height="22.0" style="left:22.7916%;top:61.5723%;width:8.4289%;height:5.4688%"><span></span></button><button class="zone" type="button" data-mode="number" data-pad-left="67.4" data-pad-top="47.0" data-pad-width="30.5" data-pad-height="22.0" style="left:54.1470%;top:61.5723%;width:8.3614%;height:5.4688%"><span></span></button><button class="zone" type="button" data-mode="number" data-pad-left="35.0" data-pad-top="47.0" data-pad-width="30.5" data-pad-height="22.0" style="left:85.6372%;top:61.5723%;width:8.3614%;height:5.4688%"><span></span></button><button class="zone" type="button" data-mode="number" data-pad-left="35.0" data-pad-top="73.5" data-pad-width="30.5" data-pad-height="22.0" style="left:22.7242%;top:88.4277%;width:8.4289%;height:5.4688%"><span></span></button><button class="zone" type="button" data-mode="number" data-pad-left="67.4" data-pad-top="73.5" data-pad-width="30.5" data-pad-height="22.0" style="left:54.0796%;top:88.4277%;width:8.3614%;height:5.4688%"><span></span></button><button class="zone" type="button" data-mode="number" data-pad-left="35.0" data-pad-top="73.5" data-pad-width="30.5" data-pad-height="22.0" style="left:85.5698%;top:88.4277%;width:8.3614%;height:5.4688%"><span></span></button></div><div id="status" class="status">Touchez une des 8 cases blanches.</div></div><button id="mini" class="mini" type="button">🔢</button><div id="overlay" class="overlay"><div class="panel"><div class="head"><div id="preview" class="preview">—</div><button id="btnClosePad" class="close-pad" type="button">×</button></div><div class="keys"><button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button><button class="erase" data-k="ERASE">⌫</button><button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button><button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button><button class="zero" data-k="0">0</button></div></div></div><script>
+(() => {
+  const zones=[...document.querySelectorAll('.zone')], overlay=document.getElementById('overlay'), mini=document.getElementById('mini'), preview=document.getElementById('preview'), status=document.getElementById('status');
+  let active=null;
+  function place(z){const wrap=z.closest('.wrap');wrap.appendChild(overlay);overlay.style.left=z.dataset.padLeft+'%';overlay.style.top=z.dataset.padTop+'%';overlay.style.width=z.dataset.padWidth+'%';overlay.style.height=z.dataset.padHeight+'%'}
+  function openPad(z){active=z;zones.forEach(x=>x.classList.toggle('active',x===z));preview.textContent='—';place(z);overlay.classList.add('show');mini.style.display='none';status.textContent='Choisis un chiffre.'}
+  function closePad(){overlay.classList.remove('show');mini.style.display='block';if(active)active.classList.remove('active')}
+  zones.forEach(z=>z.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();openPad(z)}));
+  document.querySelectorAll('[data-k]').forEach(btn=>btn.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();if(!active)return;const k=btn.dataset.k;if(k==='ERASE'){active.querySelector('span').textContent='';active.classList.remove('filled');preview.textContent='—';status.textContent='Réponse effacée.';closePad();return}if(!/^\d$/.test(k))return;active.querySelector('span').textContent=k;active.classList.add('filled');preview.textContent=k;status.textContent='✓ Réponse enregistrée : '+k;closePad()}));
+  mini.addEventListener('click',()=>{if(active)openPad(active);else status.textContent='Touchez d’abord une case blanche.'});
+  document.getElementById('btnClosePad').addEventListener('click',()=>{closePad();status.textContent='Pavé fermé.'});
+})();
+</script></body></html>
