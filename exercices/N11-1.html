@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>N11 - 1</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#eef2f5;font-family:Arial,sans-serif}
+body{touch-action:manipulation;color:#24313f;padding:6px 0 30px}
+.app{max-width:1050px;margin:0 auto;padding:0 6px}
+.note{background:#fff;padding:9px 11px;border-radius:10px;margin-bottom:7px;font-size:13px;box-shadow:0 1px 5px rgba(0,0,0,.08)}
+.sheet{position:relative;background:#fff;width:100%;margin:0 0 14px;overflow:hidden}
+.sheet>img{display:block;width:100%;height:auto;pointer-events:none;user-select:none;-webkit-user-drag:none}
+.zone{position:absolute;z-index:5;display:flex;align-items:center;justify-content:center;text-align:center;
+  font-weight:900;color:#444;line-height:1;background:transparent;box-shadow:none;
+  user-select:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation;cursor:pointer}
+.zone.circle{border-radius:50%}
+.zone.rounded{border-radius:10px}
+.zone.active{background:rgba(47,170,83,.16);box-shadow:inset 0 0 0 3px #2faa53}
+.zone.filled{background:rgba(47,170,83,.08);box-shadow:inset 0 0 0 2px rgba(47,170,83,.45)}
+.answer{pointer-events:none;white-space:nowrap;transform:translateY(-1px)}
+.zone[data-mode="digit"] .answer{font-size:clamp(31px,5.1vw,66px)}
+.zone[data-mode="op"] .answer{font-size:clamp(29px,4.7vw,60px);letter-spacing:-1px}
+.pad{position:absolute;z-index:40;display:none;width:clamp(180px,28%,245px);aspect-ratio:1/1;
+  padding:10px;border-radius:17px;background:rgb(47,170,83);box-shadow:0 8px 26px rgba(0,0,0,.26);
+  grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(4,1fr);gap:7px}
+.pad.show{display:grid}
+.key{border:1px solid rgba(0,0,0,.15);border-radius:10px;background:#fff;color:#24313f;
+  font-size:clamp(27px,4vw,40px);font-weight:900;padding:0;min-width:0;min-height:0;line-height:1;
+  display:flex;align-items:center;justify-content:center;text-align:center;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.key:active{transform:scale(.97);background:#f1f1f1}
+.key.erase{background:#ffe3e3;color:#a51f1f}
+.home-link{position:fixed;left:10px;bottom:10px;z-index:70;text-decoration:none;background:#fff;color:#263746;
+  border-radius:12px;padding:9px 12px;font-weight:900;font-size:14px;box-shadow:0 3px 12px rgba(0,0,0,.18)}
+@media(max-width:620px){
+  .note{font-size:12px}
+  .pad{width:180px;padding:8px;gap:5px;border-radius:14px}
+  .key{font-size:29px;border-radius:8px}
+}
+</style>
+</head>
+<body>
+<a href="../index.html" class="home-link">🏠 Accueil</a>
+<div class="app">
+<div class="note"><b>N11 - 1</b> — 2 pages consécutives. Un seul chiffre par case ; le premier exemple de la page 1 reste inactif.</div>
+<div class="sheet" id="page1"><img src="../images/N11-1a.jpg" alt="N11 - 1 — page 1"><div class="pad" aria-label="Pavé numérique"></div></div><div class="sheet" id="page2"><img src="../images/N11-1b.jpg" alt="N11 - 1 — page 2"><div class="pad" aria-label="Pavé numérique"></div></div>
+</div>
+<script>
+(() => {
+  const W=1483, H=2048;
+  const configs={"page1": [{"x": 548, "y": 1023, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 692, "y": 1023, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 848, "y": 1023, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 548, "y": 1453, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 692, "y": 1453, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 848, "y": 1453, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 548, "y": 1894, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 692, "y": 1894, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 848, "y": 1894, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}], "page2": [{"x": 199, "y": 366, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 342, "y": 366, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 498, "y": 366, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 875, "y": 366, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 1018, "y": 366, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 1174, "y": 366, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 199, "y": 864, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 342, "y": 864, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 498, "y": 864, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 875, "y": 864, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 1018, "y": 864, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 1174, "y": 864, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 199, "y": 1360, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 342, "y": 1360, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 498, "y": 1360, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 875, "y": 1360, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 1018, "y": 1360, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 1174, "y": 1360, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 199, "y": 1859, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 342, "y": 1859, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 498, "y": 1859, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 875, "y": 1859, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 1018, "y": 1859, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}, {"x": 1174, "y": 1859, "w": 97, "h": 97, "mode": "digit", "shape": "rounded"}]};
+  const keyOrder=['1','2','3','4','5','6','7','8','9','+','0','⌫'];
+
+  function initSheet(id){
+    const sheet=document.getElementById(id);
+    const pad=sheet.querySelector('.pad');
+    let active=null;
+
+    keyOrder.forEach(k=>{
+      const b=document.createElement('button');
+      b.type='button';
+      b.className='key'+(k==='⌫'?' erase':'');
+      b.dataset.key=k;
+      b.textContent=k;
+      pad.appendChild(b);
+    });
+
+    configs[id].forEach((z,idx)=>{
+      const el=document.createElement('button');
+      el.type='button';
+      el.className='zone '+(z.shape||'rect');
+      el.dataset.mode=z.mode;
+      el.dataset.idx=idx;
+      el.style.left=(z.x/W*100)+'%';
+      el.style.top=(z.y/H*100)+'%';
+      el.style.width=(z.w/W*100)+'%';
+      el.style.height=(z.h/H*100)+'%';
+      const ans=document.createElement('span');
+      ans.className='answer';
+      el.appendChild(ans);
+      sheet.appendChild(el);
+      el.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();openPad(el);});
+    });
+
+    function placePad(el){
+      const sr=sheet.getBoundingClientRect(), zr=el.getBoundingClientRect();
+      const sw=sheet.clientWidth, sh=sheet.clientHeight;
+      const pw=pad.offsetWidth, ph=pad.offsetHeight;
+      const zx=zr.left-sr.left, zy=zr.top-sr.top, zw=zr.width, zh=zr.height;
+      const gap=10;
+      let candidates=[
+        [zx+zw+gap, zy+(zh-ph)/2],
+        [zx-pw-gap, zy+(zh-ph)/2],
+        [zx+(zw-pw)/2, zy+zh+gap],
+        [zx+(zw-pw)/2, zy-ph-gap]
+      ];
+      let best=candidates.find(([x,y])=>x>=gap && y>=gap && x+pw<=sw-gap && y+ph<=sh-gap);
+      if(!best) best=candidates[0];
+      let [x,y]=best;
+      x=Math.max(gap,Math.min(x,sw-pw-gap));
+      y=Math.max(gap,Math.min(y,sh-ph-gap));
+      pad.style.left=x+'px';
+      pad.style.top=y+'px';
+    }
+
+    function openPad(el){
+      if(active) active.classList.remove('active');
+      active=el;
+      active.classList.add('active');
+      const mode=active.dataset.mode;
+      pad.querySelectorAll('.key').forEach(b=>{
+        b.style.display=(mode==='digit' && b.dataset.key==='+')?'none':'flex';
+      });
+      pad.classList.add('show');
+      requestAnimationFrame(()=>placePad(active));
+    }
+
+    function closePad(){
+      pad.classList.remove('show');
+      if(active) active.classList.remove('active');
+      active=null;
+    }
+
+    pad.addEventListener('click',e=>{
+      const b=e.target.closest('.key');
+      if(!b || !active) return;
+      e.preventDefault();e.stopPropagation();
+      const k=b.dataset.key;
+      const ans=active.querySelector('.answer');
+      const mode=active.dataset.mode;
+      let v=ans.textContent||'';
+
+      if(k==='⌫'){
+        ans.textContent='';
+        active.classList.remove('filled');
+        return;
+      }
+
+      if(mode==='digit'){
+        if(/^\d$/.test(k)){
+          ans.textContent=k;
+          active.classList.add('filled');
+          closePad();
+        }
+        return;
+      }
+
+      // Operation mode: digit → + → digit
+      if(v.length===0 && /^\d$/.test(k)){
+        ans.textContent=k;
+      } else if(v.length===1 && k==='+'){
+        ans.textContent=v+'+';
+      } else if(v.length===2 && /^\d$/.test(k)){
+        ans.textContent=v+k;
+        active.classList.add('filled');
+        closePad();
+      }
+    });
+
+    document.addEventListener('click',e=>{
+      if(!pad.classList.contains('show')) return;
+      if(sheet.contains(e.target) && (e.target.closest('.zone') || e.target.closest('.pad'))) return;
+      closePad();
+    });
+  }
+
+  Object.keys(configs).forEach(initSheet);
+})();
+</script>
+</body>
+</html>
