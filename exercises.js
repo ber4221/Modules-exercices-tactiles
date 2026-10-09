@@ -1,20 +1,20 @@
 const EXERCISES = [
   {
     "title": "N7 - 2",
-    "file": "N7-2.html",
-    "thumbnail": "N7-2.jpg",
+    "file": "exercices/N7-2.html",
+    "thumbnail": "images/N7-2.jpg",
     "subtitle": "Ajout de points tactile"
   },
   {
     "title": "N7 - 3",
-    "file": "N7-3.html",
-    "thumbnail": "N7-3a.jpg",
+    "file": "exercices/N7-3.html",
+    "thumbnail": "images/N7-3a.jpg",
     "subtitle": "Exercice tactile — 2 pages"
   },
   {
     "title": "N7 - évaluation",
-    "file": "N7-evaluation.html",
-    "thumbnail": "N7-evaluation.jpg",
+    "file": "exercices/N7-evaluation.html",
+    "thumbnail": "images/N7-evaluation.jpg",
     "subtitle": "Évaluation tactile mixte"
   },
   {
@@ -31,50 +31,50 @@ const EXERCISES = [
   },
   {
     "title": "N9 - 1",
-    "file": "N9-1.html",
-    "thumbnail": "N9-1.jpg",
+    "file": "exercices/N9-1.html",
+    "thumbnail": "images/N9-1.jpg",
     "subtitle": "Exercice tactile"
   },
   {
     "title": "N9 - 4",
-    "file": "N9-4.html",
-    "thumbnail": "N9-4.jpg",
+    "file": "exercices/N9-4.html",
+    "thumbnail": "images/N9-4.jpg",
     "subtitle": "Exercice tactile"
   },
   {
     "title": "N9 - 5",
-    "file": "N9-5.html",
-    "thumbnail": "N9-5.jpg",
+    "file": "exercices/N9-5.html",
+    "thumbnail": "images/N9-5.jpg",
     "subtitle": "Exercice tactile"
   },
   {
     "title": "N11 - 1",
-    "file": "N11-1.html",
-    "thumbnail": "N11-1a.jpg",
+    "file": "exercices/N11-1.html",
+    "thumbnail": "images/N11-1a.jpg",
     "subtitle": "Exercice tactile — 2 pages"
   },
   {
     "title": "N11 - 2",
-    "file": "N11-2.html",
-    "thumbnail": "N11-2.jpg",
+    "file": "exercices/N11-2.html",
+    "thumbnail": "images/N11-2.jpg",
     "subtitle": "Exercice tactile"
   },
   {
     "title": "N11 - 3",
-    "file": "N11-3.html",
-    "thumbnail": "N11-3.jpg",
+    "file": "exercices/N11-3.html",
+    "thumbnail": "images/N11-3.jpg",
     "subtitle": "Exercice tactile"
   },
   {
     "title": "N11 - 4",
-    "file": "N11-4.html",
-    "thumbnail": "N11-4.jpg",
+    "file": "exercices/N11-4.html",
+    "thumbnail": "images/N11-4.jpg",
     "subtitle": "Exercice tactile"
   },
   {
     "title": "N11 - évaluation",
-    "file": "N11-evaluation.html",
-    "thumbnail": "N11-evaluation-A.jpg",
+    "file": "exercices/N11-evaluation.html",
+    "thumbnail": "images/N11-evaluation-A.jpg",
     "subtitle": "Évaluation tactile — 2 pages"
   },
   {
